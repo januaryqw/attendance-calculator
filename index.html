@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="utf-8">
+		<meta http-equiv="Pragma" content="no-cache">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta name="viewport" content="width=device-width">
+		<script src="lib/xlsx.js"></script>
+		<script src="lib/jszip.js"></script>
+	    <script src="lib/jquery.js"></script>
+		<script src="lib/bootstrap.js"></script>
+		<script src="lib/utility.js"></script>
+		<script src="https://w3c.github.io/FileAPI/"></script>
+	    <title>eee</title>
+	</head>
+  	<body>
+		<div class="container">
+			<h1></h1>
+			<div>
+				<div style='display: inline-block;'>
+					<h1>aaa</h1>
+					<div style='display: flex; align-items: center'>
+						<textarea id="empsList" row="4" cols="50" placeholder="ddd"></textarea>
+						<button style='margin-left: 16px;' type="button" onclick="Utility.updateEmpsList();">ddd</button>
+					</div>
+					<div id="inputedEmpsList"></div>
+				</div>
+				<div style='display: inline-block;'>
+					<h1>bbb</h1>
+					<div style='display: flex; align-items: center'>
+						<textarea id="publicHolidayList" row="4" cols="50" placeholder="10/21/16, 10/28/16, ..."></textarea>
+						<button style='margin-left: 16px;' type="button" onclick="Utility.updatePublicHolidayList();">ddd</button>
+					</div>
+					<div id="inputedHolidayList"></div>
+				</div>
+				<div style='display: inline-block;'>
+					<h1>ccc</h1>
+					<div style='display: flex; align-items: center'>
+						<textarea id="workingWeekendList" row="4" cols="50" placeholder="10/21/16, 10/28/16, ..."></textarea>
+						<button style='margin-left: 16px;' type="button" onclick="Utility.updateWorkingWeekendList();">ddd</button>
+					</div>
+					<div id="inputedWorkingWeekendList"></div>
+				</div>
+
+				<div id="page-wrapper">
+					<h1>fff</h1>
+					<div>
+						Select a text file: 
+						<input type="file" id="fileInput">
+					</div>
+					<pre id="fileDisplayArea"><pre>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+			window.onload = function() {
+					var fileInput = document.getElementById('fileInput');
+					var fileDisplayArea = document.getElementById('fileDisplayArea');
+
+					fileInput.addEventListener('change', function(e) {
+						var file = fileInput.files[0];
+						var textType = /text.*/;
+						// var excelType = /application//vnd.ms-excel/;
+
+						if (file.type.match(textType)) {
+							var reader = new FileReader();
+
+							reader.onload = function(e) {
+								fileDisplayArea.innerText = reader.result;
+							}
+
+							reader.readAsText(file);	
+						} else {
+							fileDisplayArea.innerText = "File not supported!"
+							var reader = new FileReader();
+
+					        reader.onload = function(e){
+					            var data = e.target.result;
+					            var workbook = XLSX.read(data, {type : 'binary'});
+
+					            workbook.SheetNames.forEach(function(sheetName){
+					                // Here is your object
+					                var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
+					                // var json_object = JSON.stringify(XL_row_object);
+					                console.log(XL_row_object);
+
+
+					            })
+
+					        };
+
+					        reader.onerror = function(ex){
+					            console.log(ex);
+					        };
+
+					        reader.readAsBinaryString(file);
+						}
+					});
+			}
+			
+		</script>
+	</body>
+</html>
