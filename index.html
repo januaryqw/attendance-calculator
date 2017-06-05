@@ -11,46 +11,61 @@
 		<script src="lib/bootstrap.js"></script>
 		<script src="lib/utility.js"></script>
 		<script src="https://w3c.github.io/FileAPI/"></script>
-	    <title>eee</title>
+	    <title>xxx</title>
 	</head>
   	<body>
-		<div class="container">
+		<div class="container" style="display: table;position: absolute; height: 100%; width: 100%;">
 			<h1></h1>
 			<div>
-				<div style='display: inline-block;'>
-					<h1>aaa</h1>
+				<div style='margin-left: auto; margin-right: auto;'>
+					<h3>xxx</h3>
 					<div style='display: flex; align-items: center'>
-						<textarea id="empsList" row="4" cols="50" placeholder="ddd"></textarea>
-						<button style='margin-left: 16px;' type="button" onclick="Utility.updateEmpsList();">ddd</button>
+						<textarea id="empsList" row="4" cols="50" placeholder=""></textarea>
+						<button style='margin-left: 16px;' type="button" onclick="Utility.updateEmpsList();">confirm</button>
 					</div>
 					<div id="inputedEmpsList"></div>
 				</div>
-				<div style='display: inline-block;'>
-					<h1>bbb</h1>
+				<div style='margin-left: auto; margin-right: auto;'>
+					<h3>public holiday</h3>
 					<div style='display: flex; align-items: center'>
-						<textarea id="publicHolidayList" row="4" cols="50" placeholder="10/21/16, 10/28/16, ..."></textarea>
-						<button style='margin-left: 16px;' type="button" onclick="Utility.updatePublicHolidayList();">ddd</button>
+						<textarea id="publicHolidayList" row="4" cols="50" placeholder=""></textarea>
+						<button style='margin-left: 16px;' type="button" onclick="Utility.updatePublicHolidayList();">confirm</button>
 					</div>
 					<div id="inputedHolidayList"></div>
 				</div>
-				<div style='display: inline-block;'>
-					<h1>ccc</h1>
+				<div style='margin-left: auto; margin-right: auto;'>
+					<h3>working weekend</h3>
 					<div style='display: flex; align-items: center'>
 						<textarea id="workingWeekendList" row="4" cols="50" placeholder="10/21/16, 10/28/16, ..."></textarea>
-						<button style='margin-left: 16px;' type="button" onclick="Utility.updateWorkingWeekendList();">ddd</button>
+						<button style='margin-left: 16px;' type="button" onclick="Utility.updateWorkingWeekendList();">confirm</button>
 					</div>
 					<div id="inputedWorkingWeekendList"></div>
 				</div>
 
 				<div id="page-wrapper">
-					<h1>fff</h1>
+					<h3>record</h3>
 					<div>
-						Select a text file: 
+						choose a file to upload: 
 						<input type="file" id="fileInput">
 					</div>
-					<pre id="fileDisplayArea"><pre>
+					
 				</div>
 			</div>
+			<button type='button' style="margin-top: 16px;" onclick="Utility.generateResult();" >Compute</button>
+			<hr>
+			<!--<div id='result'></div>-->
+			<pre>
+				<h3>result</h3>
+				<table border="1">
+
+					<tr>
+						<th>no.</th><th>normal day</th><th>holiday</th><th>income</th>
+					</tr>
+					<tbody id="result">
+						
+					</tbody>
+				</table>
+			</pre>
 		</div>
 		<script type="text/javascript">
 			window.onload = function() {
@@ -71,7 +86,6 @@
 
 							reader.readAsText(file);	
 						} else {
-							fileDisplayArea.innerText = "File not supported!"
 							var reader = new FileReader();
 
 					        reader.onload = function(e){
@@ -81,11 +95,8 @@
 					            workbook.SheetNames.forEach(function(sheetName){
 					                // Here is your object
 					                var XL_row_object = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheetName]);
-					                // var json_object = JSON.stringify(XL_row_object);
-					                console.log(XL_row_object);
-
-
-					            })
+					               	Utility.database.push(XL_row_object);
+					            });
 
 					        };
 
