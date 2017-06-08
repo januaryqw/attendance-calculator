@@ -20,10 +20,10 @@
 				<div style='margin-left: auto; margin-right: auto;'>
 					<h3>xxx</h3>
 					<div style='display: flex; align-items: center'>
-						<textarea id="empsList" row="4" cols="50" placeholder=""></textarea>
-						<button style='margin-left: 16px;' type="button" onclick="Utility.updateEmpsList();">confirm</button>
+						<textarea id="classOrderList" row="4" cols="50" placeholder=""></textarea>
+						<button style='margin-left: 16px;' type="button" onclick="Utility.updateClassOrder();">confirm</button>
 					</div>
-					<div id="inputedEmpsList"></div>
+					<div id="inputedClassOrderList"></div>
 				</div>
 				<div style='margin-left: auto; margin-right: auto;'>
 					<h3>public holiday</h3>
@@ -81,7 +81,8 @@
 							var reader = new FileReader();
 
 							reader.onload = function(e) {
-								fileDisplayArea.innerText = reader.result;
+								//fileDisplayArea.innerText = reader.result;
+								Utility.empsListRaw = reader.result;
 							}
 
 							reader.readAsText(file);	
